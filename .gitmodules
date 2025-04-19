@@ -1,6 +1,6 @@
-[submodule "libs/libtesla"]
-	path = libs/libtesla
-	url = https://github.com/masagrator/libtesla
 [submodule "libs/libshijima"]
 	path = libs/libshijima
 	url = git@github.com:pixelomer/libshijima
+[submodule "libs/libtesla"]
+	path = libs/libtesla
+	url = git@github.com:pixelomer/libtesla

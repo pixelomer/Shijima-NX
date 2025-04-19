@@ -4,6 +4,3 @@
 [submodule "libs/libshijima"]
 	path = libs/libshijima
 	url = git@github.com:pixelomer/libshijima
-[submodule "libs/qutex"]
-	path = libs/qutex
-	url = git@github.com:pixelomer/qutex

@@ -31,7 +31,9 @@
                 "/opt/devkitpro/portlibs/switch/include/**",
                 "/opt/devkitpro/portlibs/switch/include/freetype2/**",
                 "${workspaceFolder}/include/**",
-                "${workspaceFolder}/libs/libtesla/include/**"
+                "${workspaceFolder}/libs/libtesla/include/**",
+                "${workspaceFolder}/libs/libshijima",
+                "${workspaceFolder}/libs/libshijima/pugixml/src"
             ],
             "defines": [
                 "SWITCH",

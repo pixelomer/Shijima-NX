@@ -11,3 +11,13 @@ jobs:
         submodules: recursive
     - name: Build
       run: ./build.sh
+    - name: Prepare artifact
+      run: |
+        mkdir -p sd/switch/.overlays
+        mkdir -p sd/config/Shijima-NX
+        cp build/Shijima-NX.nro sd/switch/.overlays/Shijima-NX.ovl
+        cp config-template/img.bin config-template/mascot.cereal sd/config/Shijima-NX/
+    - uses: actions/upload-artifact@v4
+      with:
+        name: release
+        path: sd

@@ -23,6 +23,7 @@
 #include <vector>
 #include <sstream>
 #include <fstream>
+#include <ctime>
 #include <zlib.h>
 #include <map>
 
@@ -247,7 +248,7 @@ public:
             registerTemplate("/config/Shijima-NX/mascot.cereal");
             m_pack.load("/config/Shijima-NX/img.bin");
             auto product = gFactory.spawn("mascot");
-            product.manager->state->anchor = { 100, 100 };
+            product.manager->reset_position();
             m_mascots.push_back(new NXMascot { std::move(product), &m_pack });
         }
         catch (std::exception &ex) {
@@ -300,6 +301,16 @@ private:
     std::string m_error;
 };
 
+void updateEnvironment() {
+    auto &env = *gFactory.env;
+    env.screen = { 0, (double)framebufferWidth, (double)framebufferHeight, 0 };
+    env.work_area = env.screen;
+    env.ceiling = { 0, 0, (double)framebufferWidth };
+    env.floor = { (double)framebufferHeight, 0, (double)framebufferWidth };
+    env.subtick_count = 1;
+    env.allows_breeding = false;
+}
+
 class ShijimaGui : public tsl::Gui {
 public:
     ShijimaGui(): m_shijimaElement(new ShijimaElement) {}
@@ -312,13 +323,7 @@ public:
 
     // Called once every frame to update values
     virtual void update() override {
-        auto &env = *gFactory.env;
-        env.screen = { 0, (double)framebufferWidth, (double)framebufferHeight, 0 };
-        env.work_area = env.screen;
-        env.ceiling = { 0, 0, (double)framebufferWidth };
-        env.floor = { (double)framebufferHeight, 0, (double)framebufferWidth };
-        env.subtick_count = 1;
-        env.allows_breeding = false;
+        updateEnvironment();
         m_shijimaElement->tick();
         gFactory.env->cursor.dx = gFactory.env->cursor.dy = 0;
     }
@@ -370,8 +375,10 @@ public:
 
 int main(int argc, char **argv) {
     gFactory.env = std::make_shared<shijima::mascot::environment>();
+    gFactory.env->seed(time(NULL));
     layerScale = 1.25;
     framebufferWidth = (u16)(tsl::cfg::LayerMaxWidth / layerScale);
     framebufferHeight = (u16)(tsl::cfg::LayerMaxHeight / layerScale);
+    updateEnvironment();
     return tsl::loop<ShijimaOverlay>(argc, argv);
 }

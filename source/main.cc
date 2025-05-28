@@ -134,6 +134,7 @@ public:
             asset.height = word();
             uint16_t nameLen = word();
             std::string name { (const char *)m_buf + i, nameLen };
+            asciitolower(name);
             i += nameLen;
             asset.bufsize = word();
             asset.buf = m_buf + i;
